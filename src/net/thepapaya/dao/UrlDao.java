@@ -5,21 +5,23 @@ import net.thepapaya.utils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 /**
  * Created by Chao on 2016/12/16.
  */
 public class UrlDao {
-    public void addUrl(String url) throws SQLException {
+    public int addUrl(String url) throws SQLException {
         // INSERT INTO url (url) VALUES('www.google.com');
-        QueryRunner queryRunner = new QueryRunner();
-        queryRunner.update(DbUtils.getConnection(), "INSERT INTO url (url) VALUES(?)", url);
-    }
+        Connection con = DbUtils.getConnection();
 
-    public int getLastId(){
-        return 0;
+        Statement statement = con.createStatement();
+        String query = "INSERT INTO url (url) VALUES('" + url + "')";
+        return statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
     }
 
     public List<Url> findUrl(int id) throws SQLException {

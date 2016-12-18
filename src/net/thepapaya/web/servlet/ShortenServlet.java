@@ -18,13 +18,13 @@ public class ShortenServlet extends HttpServlet{
             throws ServletException, IOException {
         String address = request.getParameter("url");
         UrlService service = new UrlService();
+        String shortUrl = "no response";
         try {
-            service.addUrl(address);
+            shortUrl = service.getShortUrl(address);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         finally {
-
         }
     }
 
